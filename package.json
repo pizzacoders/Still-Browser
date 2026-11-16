@@ -1,0 +1,31 @@
+{
+  "name": "still-browser",
+  "productName": "Still Browser",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A quiet, customizable desktop browser prototype built with Electron, ported for Unix, XNU, and Android.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "cap:init": "cap init",
+    "cap:ios": "cap add ios",
+    "cap:android": "cap add android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
+    "@electron-forge/cli": "^7.8.1",
+    "@electron-forge/maker-appimage": "^7.8.1",
+    "@electron-forge/maker-deb": "^7.8.1",
+    "@electron-forge/maker-dmg": "^7.8.1",
+    "@electron-forge/maker-squirrel": "^7.8.1",
+    "@electron-forge/maker-zip": "^7.8.1",
+    "electron": "^44.0.0"
+  }
+}

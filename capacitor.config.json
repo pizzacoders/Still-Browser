@@ -1,0 +1,6 @@
+{
+  "appId": "com.still.browser",
+  "appName": "Still Browser",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}

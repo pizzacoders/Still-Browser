@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="theme-color" content="#0b0d10">
+  <title>Still Browser</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="chrome">
+      <div class="tab-strip" id="tab-strip">
+        <div class="brand-mark" aria-label="Still Browser"><span class="brand-glyph">s</span></div>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Browser tabs"></div>
+        <button class="icon-button new-tab" id="new-tab" data-tip="New tab" aria-label="New tab">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+        </button>
+      </div>
+      <div class="navigation-bar">
+        <div class="nav-group">
+          <button class="icon-button nav-button" id="back" data-tip="Back" aria-label="Back" disabled>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m11.8 4.5-5.4 5.5 5.4 5.5M6.8 10h8"/></svg>
+          </button>
+          <button class="icon-button nav-button" id="forward" data-tip="Forward" aria-label="Forward" disabled>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8.2 4.5 5.4 5.5-5.4 5.5M13.2 10h-8"/></svg>
+          </button>
+          <button class="icon-button nav-button" id="reload" data-tip="Reload" aria-label="Reload">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.8 7.1A6.2 6.2 0 1 0 16 11M15.8 4.1v3.6h-3.6"/></svg>
+          </button>
+        </div>
+        <form class="address-wrap" id="address-form" autocomplete="off">
+          <svg class="address-search-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.4"/><path d="m13 13 4 4"/></svg>
+          <input id="address" type="text" spellcheck="false" aria-label="Search or enter address" data-i18n-placeholder="addressPlaceholder" placeholder="Search or enter address">
+          <button class="bookmark-button" id="bookmark" type="button" data-tip="Add bookmark" aria-label="Add bookmark">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 3.5h9v13L10 13.2l-4.5 3.3z"/></svg>
+          </button>
+        </form>
+        <div class="tools-group">
+          <button class="icon-button ai-trigger" id="open-ai" data-tip="AI assistant" aria-label="AI assistant"><span>AI</span></button>
+          <button class="icon-button settings-trigger" id="open-settings" data-tip="Settings" aria-label="Settings">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 12.9a2.9 2.9 0 1 0 0-5.8 2.9 2.9 0 0 0 0 5.8Z"/><path d="m16.5 11.1 1 .8-1.3 2.2-1.2-.5a6.8 6.8 0 0 1-1.4.8l-.2 1.3h-2.6l-.2-1.3a6.8 6.8 0 0 1-1.4-.8l-1.2.5-1.3-2.2 1-.8a6.4 6.4 0 0 1 0-1.6l-1-.8 1.3-2.2 1.2.5a6.8 6.8 0 0 1 1.4-.8l.2-1.3h2.6l.2 1.3a6.8 6.8 0 0 1 1.4.8l1.2-.5 1.3 2.2-1 .8a6.4 6.4 0 0 1 0 1.6Z"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="rail" aria-label="Browser shortcuts">
+        <div class="rail-top">
+          <button class="rail-item active" id="home-button" data-tip="Home" aria-label="Home">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m3 9 7-5.5L17 9v7.2a.8.8 0 0 1-.8.8H3.8a.8.8 0 0 1-.8-.8Z"/><path d="M7.5 17v-5h5v5"/></svg>
+          </button>
+          <button class="rail-item" id="bookmarks-button" data-tip="Bookmarks" aria-label="Bookmarks">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3.5h10v13L10 13.2l-5 3.3z"/></svg>
+          </button>
+          <button class="rail-item" id="history-button" data-tip="Recent pages" aria-label="Recent pages">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.6"/><path d="M10 6.2v4.1l2.8 1.6M3.4 4.8v3.4h3.4"/></svg>
+          </button>
+        </div>
+        <div class="rail-bottom">
+          <button class="rail-item rail-ai" id="rail-ai" data-tip="AI assistant" aria-label="AI assistant"><span>AI</span></button>
+          <div class="rail-divider"></div>
+          <button class="profile-button" id="profile-button" data-tip="Your space" aria-label="Your space"><span>Y</span><i></i></button>
+        </div>
+      </aside>
+
+      <main class="stage" id="stage">
+        <div class="home-view" id="home-view">
+          <div class="home-content">
+            <div class="home-topline"><span class="eyebrow" data-i18n="yourSpace">YOUR SPACE</span><span class="date-pill" id="date-pill"></span></div>
+            <section class="welcome-block">
+              <div class="orb-wrap" aria-hidden="true"><div class="orb"></div><div class="orb-ring ring-a"></div><div class="orb-ring ring-b"></div></div>
+              <p class="welcome-kicker" data-i18n="welcomeKicker">A little room to think</p>
+              <h1><span data-i18n="welcomeLineOne">The internet,</span><br><em data-i18n="welcomeLineTwo">at your pace.</em></h1>
+              <p class="welcome-subtitle" data-i18n="welcomeSubtitle">Find what you need. Keep what matters. Leave the noise behind.</p>
+              <button class="hero-search" id="hero-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.4"/><path d="m13 13 4 4"/></svg><span data-i18n="heroSearch">Search the web or enter a URL</span><kbd>⌘ L</kbd></button>
+            </section>
+
+            <section class="quick-section" id="quick-section">
+              <div class="section-heading"><h2 data-i18n="quickLinks">Quick links</h2><button class="text-button" id="edit-links" data-i18n="edit">Edit</button></div>
+              <div class="quick-grid" id="quick-grid"></div>
+            </section>
+
+            <section class="focus-card" id="focus-card">
+              <div class="focus-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5Zm0 4v5l3.2 2M4.5 5l2 2"/></svg></div>
+              <div><p class="focus-label" data-i18n="focusMoment">A moment to focus</p><p class="focus-copy" data-i18n="focusCopy">One tab at a time is enough.</p></div>
+              <span class="focus-sparkle">✳</span>
+            </section>
+            <footer class="home-footer"><span data-i18n="quietByDesign">Quiet by design</span><span class="footer-dot">·</span><span data-i18n="builtForYou">Built around you</span><button id="open-settings-footer" class="footer-settings" data-i18n="makeItYours">Make it yours <span>↗</span></button></footer>
+          </div>
+        </div>
+
+        <div class="web-surface" id="web-surface" aria-label="Web page"></div>
+        <div class="page-error" id="page-error" hidden></div>
+
+        <aside class="ai-panel" id="ai-panel" aria-hidden="true">
+          <div class="panel-head"><div><span class="panel-eyebrow" data-i18n="assistantHub">ASSISTANT HUB</span><h2 data-i18n="aiAssistant">AI assistant</h2></div><button class="icon-button close-panel" id="close-ai" aria-label="Close"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+          <div class="engine-switch" role="tablist"><button class="engine-tab selected" data-engine="openai" role="tab"><span class="engine-dot openai-dot">✳</span>ChatGPT</button><button class="engine-tab" data-engine="gemini" role="tab"><span class="engine-dot gemini-dot">✦</span>Gemini</button></div>
+          <div class="connection-row"><span id="connection-label" data-i18n="notConnected">Not connected</span><button class="text-button" id="manage-keys" data-i18n="connect">Connect</button></div>
+          <div class="ai-context"><span class="context-icon">⌘</span><span id="context-status" data-i18n="askAnything">Ask anything, or use this page as context.</span><button id="include-page" class="context-toggle" role="switch" aria-checked="false" aria-label="Include page context"><span></span></button></div>
+          <div class="chat-messages" id="chat-messages"><div class="assistant-welcome"><div class="assistant-mark">✳</div><h3 data-i18n="aiWelcome">A thought partner, right here.</h3><p data-i18n="aiWelcomeBody">Ask a question, explore an idea, or get a quick summary of this page.</p><div class="suggestion-chips"><button data-prompt="Summarize the key points on this page" data-suggestion="summarize">Summarize this page</button><button data-prompt="Help me understand this topic" data-suggestion="explain">Explain this</button><button data-prompt="Help me draft a response" data-suggestion="write">Write something</button></div></div></div>
+          <form id="chat-form" class="chat-composer"><textarea id="chat-input" rows="1" data-i18n-placeholder="chatPlaceholder" placeholder="Message your assistant…"></textarea><div class="composer-bottom"><span data-i18n="aiCanBeWrong">AI can make mistakes</span><button type="submit" id="send-chat" aria-label="Send message"><svg viewBox="0 0 20 20"><path d="M10 15V5m-4 4 4-4 4 4"/></svg></button></div></form>
+          <button class="keys-footer" id="keys-footer"><span class="key-icon">⚿</span><span data-i18n="yourKeys">Your keys stay on this device</span><span class="footer-arrow">↗</span></button>
+        </aside>
+
+        <div class="settings-backdrop" id="settings-backdrop"></div>
+        <aside class="settings-panel" id="settings-panel" aria-hidden="true">
+          <div class="panel-head"><div><span class="panel-eyebrow" data-i18n="personalize">PERSONALIZE</span><h2 data-i18n="settings">Settings</h2></div><button class="icon-button close-panel" id="close-settings" aria-label="Close"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+          <div class="settings-scroll">
+            <section class="settings-section"><div class="settings-title"><h3 data-i18n="appearance">Appearance</h3><span data-i18n="makeSpaceYours">Make this space yours</span></div>
+              <label class="setting-row"><span><b data-i18n="theme">Theme</b><small data-i18n="themeDesc">Choose your preferred look</small></span><select id="theme-select"><option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option></select></label>
+              <div class="setting-row accent-row"><span><b data-i18n="accentColor">Accent color</b><small data-i18n="accentDesc">A hint of color, your way</small></span><div class="swatches" id="swatches"><button data-color="#c8a8ff" class="swatch selected" aria-label="Lavender"></button><button data-color="#80d6bd" class="swatch" aria-label="Mint"></button><button data-color="#f0a988" class="swatch" aria-label="Coral"></button><button data-color="#86b8ff" class="swatch" aria-label="Blue"></button><button data-color="#e1c878" class="swatch" aria-label="Gold"></button><label class="custom-color" data-tip="Custom color"><input id="custom-color" type="color" value="#c8a8ff" aria-label="Custom accent color">＋</label></div></div>
+            </section>
+            <section class="settings-section"><div class="settings-title"><h3 data-i18n="language">Language</h3><span data-i18n="languageDesc">Over 190 languages available</span></div>
+              <label class="setting-row"><span><b data-i18n="interfaceLanguage">Interface language</b><small data-i18n="languageCoverage">Untranslated strings use English</small></span><select id="language-select"></select></label>
+            </section>
+            <section class="settings-section"><div class="settings-title"><h3 data-i18n="privacy">Privacy & browsing</h3><span data-i18n="privacyDesc">Your browser, your rules</span></div>
+              <label class="setting-row"><span><b data-i18n="adBlocking">Ad blocking</b><small data-i18n="adBlockingDesc">Block requests from common ad hosts</small></span><button class="switch" id="adblock-switch" role="switch" aria-checked="false"><span></span></button></label>
+              <p class="fine-print" data-i18n="adblockNote">Starter domain list. This is not a full filter-list blocker.</p>
+            </section>
+            <section class="settings-section"><div class="settings-title"><h3 data-i18n="homepage">Homepage</h3><span data-i18n="homepageDesc">Keep only what helps</span></div>
+              <label class="setting-row"><span><b data-i18n="quickLinksWidget">Quick links</b><small data-i18n="quickLinksDesc">Show your favorite sites</small></span><button class="switch" id="quicklinks-switch" role="switch" aria-checked="true"><span></span></button></label>
+              <label class="setting-row"><span><b data-i18n="focusWidget">Focus card</b><small data-i18n="focusWidgetDesc">A small reminder to slow down</small></span><button class="switch" id="focus-switch" role="switch" aria-checked="true"><span></span></button></label>
+            </section>
+            <section class="settings-section shortcuts-section"><div class="settings-title"><h3 data-i18n="shortcuts">Keyboard shortcuts</h3><span data-i18n="shortcutsDesc">Select a shortcut to change it</span></div>
+              <button class="shortcut-row" data-shortcut="newTab"><span data-i18n="newTab">New tab</span><kbd>⌘ T</kbd></button><button class="shortcut-row" data-shortcut="closeTab"><span data-i18n="closeTab">Close tab</span><kbd>⌘ W</kbd></button><button class="shortcut-row" data-shortcut="focusAddress"><span data-i18n="focusAddress">Focus address bar</span><kbd>⌘ L</kbd></button><button class="shortcut-row" data-shortcut="toggleAI"><span data-i18n="toggleAssistant">Toggle AI assistant</span><kbd>⌘ ⇧ A</kbd></button>
+              <p class="fine-print" data-i18n="shortcutHint">Click a shortcut, then press the key combination you want.</p>
+            </section>
+            <section class="settings-section ai-keys-section"><div class="settings-title"><h3 data-i18n="aiConnections">AI connections</h3><span data-i18n="aiKeysDesc">Bring your own API keys</span></div>
+              <div class="key-entry"><div class="key-heading"><span class="engine-dot openai-dot">✳</span><b>OpenAI</b><span class="key-status" id="openai-key-status">Not connected</span></div><div class="key-input-row"><input type="password" id="openai-key" placeholder="sk-…" autocomplete="off"><button data-save-key="openai" class="small-action" data-i18n="save">Save</button><button data-clear-key="openai" class="small-action muted-action" data-i18n="clear">Clear</button></div></div>
+              <div class="key-entry"><div class="key-heading"><span class="engine-dot gemini-dot">✦</span><b>Gemini</b><span class="key-status" id="gemini-key-status">Not connected</span></div><div class="key-input-row"><input type="password" id="gemini-key" placeholder="AIza…" autocomplete="off"><button data-save-key="gemini" class="small-action" data-i18n="save">Save</button><button data-clear-key="gemini" class="small-action muted-action" data-i18n="clear">Clear</button></div></div>
+              <p class="fine-print" id="secure-key-note" data-i18n="secureKeyNote">Keys are stored encrypted by your operating system and sent only to the selected AI provider.</p>
+            </section>
+            <div class="settings-version"><span class="brand-glyph mini-glyph">s</span><span>Still Browser</span><span>Prototype · v1.0</span></div>
+          </div>
+        </aside>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+</body>
+</html>
